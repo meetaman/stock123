@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Spike Predictor</title>
+    <style>
+        #logs {
+            white-space: pre-wrap;
+            font-family: monospace;
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stock Spike Predictor</h1>
+    <form method="POST">
+        <button type="submit">Run Analysis</button>
+    </form>
+    <h2>Processing Logs</h2>
+    <div id="logs"></div>
+
+    <script>
+        // Connect to the SSE stream
+        const eventSource = new EventSource("/stream");
+        const logsDiv = document.getElementById("logs");
+
+        eventSource.onmessage = function(event) {
+            // Append new log to the logs div
+            logsDiv.textContent += event.data;
+            // Auto-scroll to the bottom
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        };
+    </script>
+</body>
+</html>
